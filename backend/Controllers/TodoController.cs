@@ -42,11 +42,12 @@ public class TodoController : ControllerBase
         _todoService.Add(todo);
         return Ok(todo);
     }
-    [HttpPut(Name = "UpdateTodo")]
+    [HttpPut("{id}", Name = "UpdateTodo")]
     public IActionResult Put(int id, [FromBody] Todo updatedTodo)
     {
+         var todo = _todoService.GetById(id);
         _todoService.Update(id, updatedTodo);
-        return Ok();
+        return Ok(todo);
     }
 
         

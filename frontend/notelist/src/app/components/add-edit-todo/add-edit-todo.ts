@@ -3,6 +3,7 @@ import { Todo } from '../../models/todo';
 import { TodoService } from '../../services/todo-service';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [FormsModule],
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class AddEditFormComponent {
 
 
-
+  constructor(private router: Router) {}
   private todoService = inject(TodoService);
 
   private route = inject(ActivatedRoute);
@@ -69,6 +70,7 @@ export class AddEditFormComponent {
       next: result => {
 
         console.log('Todo added', result);
+         
 
       },
 
@@ -117,6 +119,7 @@ export class AddEditFormComponent {
       this.addTodo(todo);
 
     }
+    this.router.navigate(['/todos']);
 
   }
 

@@ -22,6 +22,7 @@ public class TodoService : ITodoService
 
     public void Add(Todo todo)
     {
+        todo.Id = NextId();
         _todos.Add(todo);
     }
 
@@ -42,5 +43,10 @@ public class TodoService : ITodoService
         {
             _todos.Remove(todo);
         }
+    }
+
+    public int NextId()
+    {
+        return _todos.Count() + 1;
     }
 }
