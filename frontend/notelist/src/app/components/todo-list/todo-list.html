@@ -25,6 +25,16 @@
             <td class="text-center">                
                 <a [routerLink]="['/todo']" [queryParams]="{ id: todo.id }" class="btn btn-sm btn-outline-primary">    Edit  </a>
               </td>
+
+              <td>
+                 <button
+              type="button"
+              class="btn btn-sm btn-outline-danger ms-2"
+              (click)="deleteTodo(todo.id)"
+            >
+              Delete
+            </button>
+              </td>
         </tr>
         
         }

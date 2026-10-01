@@ -27,4 +27,8 @@ export class TodoService {
   getAllTodos():Observable<Todo[]>{
     return this.http.get<Todo[]>(`${this.apiUrl}/`);
   }
+
+  deleteTodo(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

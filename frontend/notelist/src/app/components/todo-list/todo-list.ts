@@ -43,4 +43,19 @@ export class TodoListComponent {
         }
       });
   }
+
+  deleteTodo(id: number): void {
+  this.todoService.deleteTodo(id).subscribe({
+    next: () => {
+      this.list.update(todos =>
+        todos.filter(todo => todo.id !== id)
+      );
+
+      console.log('Todo deleted', id);
+    },
+    error: error => {
+      console.error('Failed to delete todo', error);
+    }
+  });
+}
 }
