@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { TodoService } from '../../services/todo-service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   imports: [CommonModule, RouterLink],
@@ -11,32 +12,35 @@ import { CommonModule } from '@angular/common';
   templateUrl: './todo-list.html',
 })
 export class TodoListComponent {
-  list:Todo[] = [];
-  constructor(private todoservice: TodoService) {}
+  list = signal<Todo[]>([]);
+  constructor(private todoService: TodoService) { }
   ngOnInit() {
-    this.list = [
-      new Todo(1, 'Buy groceries', false),
-      new Todo(2, 'Clean the house', true),
-      new Todo(3, 'Finish the project', false),
-    ];
-    console.log('Todo List:', this.list);
-  }
-
-  getAllTodos(): Todo[] {
-    return this.list;
-  }
-
-  toggleCompletion(todo: Todo): void {
-    this.todoservice.editTodo(todo.id, { ...todo, completed: !todo.completed }).subscribe({
-      next: (updatedTodo: Todo) => {
-        const index = this.list.findIndex(t => t.id === updatedTodo.id);
-        if (index !== -1) {
-          this.list[index] = updatedTodo;
-        }
+    this.todoService.getAllTodos().subscribe({
+      next: (todos) => {
+        this.list.set(todos);
       },
       error: (error) => {
-        console.error('Error updating todo:', error);
+        console.error(error);
       }
     });
+  }
+
+
+
+  toggleCompletion(todo: Todo): void {
+    this.todoService
+      .editTodo(todo.id, { ...todo, completed: !todo.completed })
+      .subscribe({
+        next: (updatedTodo: Todo) => {
+          this.list.update(todos =>
+            todos.map(t =>
+              t.id === updatedTodo.id ? updatedTodo : t
+            )
+          );
+        },
+        error: (error) => {
+          console.error('Error updating todo:', error);
+        }
+      });
   }
 }

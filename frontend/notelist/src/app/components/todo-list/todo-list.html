@@ -7,8 +7,9 @@
             <th>Completed</th>
         </tr>
     </thead>
+    
     <tbody>
-        @for(todo of getAllTodos();track todo.id) {
+        @for (todo of list(); track todo.id) {
 
         <tr>
             <td>{{todo.id}}</td>

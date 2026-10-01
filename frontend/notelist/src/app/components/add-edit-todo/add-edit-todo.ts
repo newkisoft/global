@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Todo } from '../../models/todo';
 import { TodoService } from '../../services/todo-service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,11 +20,12 @@ export class AddEditFormComponent {
 
   private route = inject(ActivatedRoute);
 
-  todoId: number | null = null;
+  
 
   isEditMode = false;
 
-  todoItem: Todo = new Todo(0, '', false);
+  todoId = 0;
+  todoItem = signal<Todo>(new Todo(0, '', false));
 
 
 
@@ -41,7 +42,6 @@ export class AddEditFormComponent {
         this.isEditMode = true;
 
         this.loadTodo(this.todoId);
-
       }
 
     });
@@ -49,27 +49,17 @@ export class AddEditFormComponent {
   }
 
 
-
-  private loadTodo(id: number): void {
-
+ private loadTodo(id: number): void {
     this.todoService.getTodo(id).subscribe({
-
       next: (todo: Todo) => {
-
-        console.log(todo);
-
+        console.log('Loaded todo:', todo);
+        this.todoItem.set(todo);
       },
-
       error: error => {
-
         console.error('Failed to load todo', error);
-
       }
-
     });
-
   }
-
 
 
   addTodo(todo: Todo): void {

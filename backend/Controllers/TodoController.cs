@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TodoController : ControllerBase
 {
     private readonly ITodoService _todoService;

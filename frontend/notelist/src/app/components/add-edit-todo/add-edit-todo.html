@@ -11,7 +11,7 @@
 
         <div class="card-body">
 
-          <form (ngSubmit)="SaveTodo(todoItem)">
+          <form (ngSubmit)="SaveTodo(todoItem())">
            
             <div class="mb-3">
               <label for="title" class="form-label">
@@ -22,7 +22,7 @@
                 id="title"
                 type="text"
                 class="form-control"
-                [(ngModel)]="todoItem.title"
+                [(ngModel)]="todoItem().title"
                 name="title"
                 placeholder="Enter todo title"
                 required
@@ -35,7 +35,7 @@
                 id="completed"
                 type="checkbox"
                 class="form-check-input"
-                [(ngModel)]="todoItem.completed"
+                [(ngModel)]="todoItem().completed"
                 name="completed"
               />
 
